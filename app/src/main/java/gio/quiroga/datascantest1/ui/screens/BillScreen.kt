@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,7 +25,7 @@ import java.time.LocalDate
 
 @Composable
 fun BillScreen(billViewModel: BillViewModel = viewModel()) {
-    val appState by billViewModel.uiState.collectAsState()
+    //val appState by billViewModel.uiState.collectAsState()
 
     Scaffold() { paddingValues ->
         Column(
@@ -42,13 +43,21 @@ fun BillScreen(billViewModel: BillViewModel = viewModel()) {
             )
             Spacer(modifier = Modifier.height(32.dp))
             Text(
+                text = stringResource(R.string.greeting, billViewModel.getClientName() ?: ""),
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(),
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Text(
                 text = pluralStringResource(
                     R.plurals.you_has_purchased,
-                    appState.products.size,
-                    appState.products.size
+                    billViewModel.getProductsSizefromState(),
+                    billViewModel.getProductsSizefromState()
                 ),
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
                     .fillMaxWidth(),
                 style = MaterialTheme.typography.labelMedium,
             )

@@ -60,6 +60,7 @@ class ProductsViewModel: ViewModel() {
 
     fun addProductToState(producto: Producto){
         productos.value.add(producto)
+        AppState.productos.add(producto)
         _uiState.value = ProductsState(products =  productos.value)
     }
 }

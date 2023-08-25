@@ -9,6 +9,7 @@
     <string name="add_product">Agregar producto</string>
     <string name="client_no_found">Cliente no encontrado</string>
     <string name="product_no_found">Producto no encontrado</string>
+    <string name="greeting">Hola %1$s,</string>
     <plurals name="you_has_purchased">
         <item quantity="one">Has comprado %1$d artículo en nuestra tienda.</item>
         <item quantity="other">Has comprado %1$d artículos en nuestra tienda.</item>
