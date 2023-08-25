@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">DataScan Test</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="input_id">Ingresa la cédula del cliente</string>
+    <string name="input_product_id">Ingresa el ID del producto</string>
+    <string name="id_card">Cédula</string>
+    <string name="product_id_te_label">ID</string>
+    <string name="title_activity_products_screen">Venta</string>
+    <string name="add_product">Agregar producto</string>
+    <string name="client_no_found">Cliente no encontrado</string>
+    <string name="product_no_found">Producto no encontrado</string>
+    <plurals name="you_has_purchased">
+        <item quantity="one">Has comprado %1$d artículo en nuestra tienda.</item>
+        <item quantity="other">Has comprado %1$d artículos en nuestra tienda.</item>
+    </plurals>
+</resources>
