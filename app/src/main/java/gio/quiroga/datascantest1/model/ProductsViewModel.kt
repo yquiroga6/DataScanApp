@@ -2,7 +2,6 @@ package gio.quiroga.datascantest1.model
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,8 +14,8 @@ import kotlinx.coroutines.launch
 
 class ProductsViewModel: ViewModel() {
     // App state
-    private val _uiState = MutableStateFlow(AppState())
-    val uiState: StateFlow<AppState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ProductsState())
+    val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
 
     var showBottomSheet by mutableStateOf(false)
         private set
@@ -61,7 +60,7 @@ class ProductsViewModel: ViewModel() {
 
     fun addProductToState(producto: Producto){
         productos.value.add(producto)
-        _uiState.value = AppState(products =  productos.value)
+        _uiState.value = ProductsState(products =  productos.value)
     }
 }
 

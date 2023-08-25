@@ -12,13 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ClientIdViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+class ClientIdViewModel : ViewModel() {
     // App state
-    private val _uiState = MutableStateFlow(AppState())
-    val uiState: StateFlow<AppState> = _uiState.asStateFlow()
-
-    private val savedClientId: StateFlow<String> =
-        savedStateHandle.getStateFlow(key = uiState.value.USER_ID, initialValue = "LLL")
+    private val _uiState = MutableStateFlow(ProductsState())
+    val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
 
     var textFieldValue by mutableStateOf("")
         private set
@@ -39,12 +36,9 @@ class ClientIdViewModel(private val savedStateHandle: SavedStateHandle) : ViewMo
      * Verify client id from backend
      */
     fun verifyClientId()  {
-        savedStateHandle[uiState.value.USER_ID] = "1094885006"
-        MAppState.d = "cosa"
         viewModelScope.launch {
             try {
-                val cliente = DataScanApi.retrofitService.getCliente(textFieldValue)
-                savedStateHandle[uiState.value.USER_ID] = "1094885006"
+                AppState.cliente = DataScanApi.retrofitService.getCliente(textFieldValue)
                 verified = true
                 error = false
             } catch (e: Exception) {

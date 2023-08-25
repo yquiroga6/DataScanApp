@@ -35,7 +35,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel()) {
         ) {
             Spacer(modifier = Modifier.height(32.dp))
             Text(
-                text = billViewModel.getClientId(),//LocalDate.now().toString(),
+                text = LocalDate.now().toString(),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(8.dp)
