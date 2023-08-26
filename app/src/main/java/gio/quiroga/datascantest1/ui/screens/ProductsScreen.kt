@@ -132,7 +132,7 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
 fun ProductCard(product: Producto) {
     var expanded by remember { mutableStateOf(false) }
     val format: NumberFormat = NumberFormat.getCurrencyInstance()
-    format.setCurrency(Currency.getInstance("COP"))
+    format.currency = Currency.getInstance("COP")
 
     Card(
         shape = RoundedCornerShape(8.dp),

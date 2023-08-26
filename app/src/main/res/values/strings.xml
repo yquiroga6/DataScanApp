@@ -11,9 +11,13 @@
     <string name="product_no_found">Producto no encontrado</string>
     <string name="greeting">Hola %1$s,</string>
     <string name="receipt">Resumen de la compra</string>
-    <string name="purchase">Compra</string>
+    <string name="purchase">Compra:</string>
+    <string name="to_purchase">Comprar</string>
+    <string name="total">TOTAL</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="discounts">Descuentos</string>
     <plurals name="you_has_purchased">
-        <item quantity="one">Has comprado %1$d artículo en nuestra tienda.</item>
-        <item quantity="other">Has comprado %1$d artículos en nuestra tienda.</item>
+        <item quantity="one">Vas a comprar %1$d artículo en nuestra tienda.</item>
+        <item quantity="other">Vas a comprar %1$d artículos en nuestra tienda.</item>
     </plurals>
 </resources>
