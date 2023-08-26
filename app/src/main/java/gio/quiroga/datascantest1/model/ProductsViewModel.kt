@@ -25,8 +25,6 @@ class ProductsViewModel : ViewModel() {
         private set
     var error by mutableStateOf(false)
         private set
-    var productos = mutableStateOf<MutableList<Producto>>(mutableListOf())
-        private set
     var isLoading by mutableStateOf(false)
         private set
 
@@ -63,9 +61,12 @@ class ProductsViewModel : ViewModel() {
     }
 
     fun addProductToState(producto: Producto) {
-        productos.value.add(producto)
         AppState.productos.add(producto)
-        _uiState.value = ProductsState(products = productos.value)
+        _uiState.value = ProductsState(products = AppState.productos)
+    }
+
+    fun getProductsFromState(): List<Producto>{
+        return AppState.productos
     }
 }
 

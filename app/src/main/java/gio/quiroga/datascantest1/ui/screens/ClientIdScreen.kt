@@ -45,7 +45,7 @@ fun ClientIDScreen(
     Card(
         modifier = Modifier
             .padding(40.dp)
-            .aspectRatio(1.6F),
+            .aspectRatio(1.55F),
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {

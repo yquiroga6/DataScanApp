@@ -36,7 +36,7 @@ import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BillScreen(billViewModel: BillViewModel = viewModel()) {
+fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () -> Unit) {
     //val appState by billViewModel.uiState.collectAsState()
 
     Scaffold(
@@ -46,7 +46,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel()) {
                     Text(text = stringResource(R.string.receipt))
                 },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = { onBackToProducts() }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "back arrow")
                     }
                 }
@@ -71,7 +71,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel()) {
                 text = stringResource(R.string.greeting, billViewModel.getClientName() ?: ""),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 32.dp)
                     .fillMaxWidth(),
                 style = MaterialTheme.typography.titleMedium,
             )
@@ -82,7 +82,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel()) {
                     billViewModel.getProductsSizefromState()
                 ),
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 32.dp)
                     .fillMaxWidth(),
                 style = MaterialTheme.typography.labelMedium,
             )
@@ -120,6 +120,6 @@ fun ItemRow() {
 @Composable
 fun BillScreenPreview() {
     DataScanTheme {
-        BillScreen()
+        BillScreen(onBackToProducts = {})
     }
 }

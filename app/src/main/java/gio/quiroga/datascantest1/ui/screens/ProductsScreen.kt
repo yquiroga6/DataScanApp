@@ -120,7 +120,7 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
         }
         //Box(modifier = Modifier.padding(contentPadding)) { /* ... */ }
         LazyColumn(modifier = Modifier.padding(contentPadding)) {
-            val productos = productsViewModel.productos.value
+            val productos = productsViewModel.getProductsFromState()
             items(productos.size) { index ->
                 ProductCard(productos[index])
             }
@@ -158,13 +158,13 @@ fun ProductCard(product: Producto) {
                     Text(
                         text = product.nombre ?: "",
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
 
                     Text(
                         text = format.format(product.valor) ?: "",
                         style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp)
                     )
                 }
             }

@@ -35,7 +35,11 @@ fun DSNavHost(
             )
         }
         composable(route = Bills.route) {
-            BillScreen()
+            BillScreen(
+                onBackToProducts = {
+                    navController.navigateSingleTopTo(Products.route)
+                }
+            )
         }
     }
 }
