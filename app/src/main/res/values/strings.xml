@@ -10,6 +10,8 @@
     <string name="client_no_found">Cliente no encontrado</string>
     <string name="product_no_found">Producto no encontrado</string>
     <string name="greeting">Hola %1$s,</string>
+    <string name="receipt">Resumen de la compra</string>
+    <string name="purchase">Compra</string>
     <plurals name="you_has_purchased">
         <item quantity="one">Has comprado %1$d artículo en nuestra tienda.</item>
         <item quantity="other">Has comprado %1$d artículos en nuestra tienda.</item>

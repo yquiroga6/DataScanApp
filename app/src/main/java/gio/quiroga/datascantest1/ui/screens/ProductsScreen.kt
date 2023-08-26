@@ -4,6 +4,7 @@ import android.icu.text.NumberFormat
 import android.icu.util.Currency
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
@@ -111,7 +113,8 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
                     onSubmit = {
                         productsViewModel.getProductById()
                     },
-                    isError = productsViewModel.error
+                    isError = productsViewModel.error,
+                    isLoading = productsViewModel.isLoading
                 )
             }
         }
@@ -172,7 +175,6 @@ fun ProductCard(product: Producto) {
                     modifier = Modifier.padding(8.dp)
                 )
             }
-
         }
     }
 }
@@ -182,50 +184,57 @@ fun ProductSheetDialog(
     value: String, onValueChange: (String) -> Unit,
     onSubmit: (KeyboardActionScope) -> Unit,
     isError: Boolean,
+    isLoading: Boolean
 ) {
     val focusRequester = remember { FocusRequester() }
 
-    Column(
-        modifier = Modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text(
-            text = stringResource(R.string.input_product_id),
-            modifier = Modifier
-                .padding(bottom = 16.dp)
-                .align(alignment = Alignment.Start)
-        )
-        TextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
-                .focusRequester(focusRequester),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Send,
-                capitalization = KeyboardCapitalization.Characters
-            ),
-            isError = isError,
-            supportingText = {
-                if (isError) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = stringResource(R.string.product_no_found),
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            },
-            keyboardActions = KeyboardActions(onSend = onSubmit),
-            label = { Text(stringResource(R.string.product_id_te_label)) },
-            singleLine = true
-        )
-        LaunchedEffect("") {
-            delay(300)
-            focusRequester.requestFocus()
+    Box {
+        Column(
+            modifier = Modifier.padding(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = stringResource(R.string.input_product_id),
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .align(alignment = Alignment.Start)
+            )
+            TextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Send,
+                    capitalization = KeyboardCapitalization.Characters
+                ),
+                isError = isError,
+                supportingText = {
+                    if (isError) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(R.string.product_no_found),
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                },
+                keyboardActions = KeyboardActions(onSend = onSubmit),
+                label = { Text(stringResource(R.string.product_id_te_label)) },
+                singleLine = true
+            )
+            LaunchedEffect("") {
+                delay(300)
+                focusRequester.requestFocus()
+            }
         }
+        if (isLoading)
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
     }
 }
 

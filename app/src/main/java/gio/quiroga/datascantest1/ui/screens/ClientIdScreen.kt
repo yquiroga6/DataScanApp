@@ -1,15 +1,19 @@
 package gio.quiroga.datascantest1.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -45,27 +49,33 @@ fun ClientIDScreen(
         elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            modifier = Modifier.padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = stringResource(R.string.input_id),
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .align(alignment = Alignment.Start)
-            )
-            EditNumberField(
-                value = clientIdViewModel.textFieldValue,
-                onValueChange = { clientIdViewModel.changeTextFieldValue(it) },
-                onSubmit = { clientIdViewModel.verifyClientId() },
-                isError = clientIdViewModel.error,
-                modifier = Modifier
-                    .padding(bottom = 32.dp)
-                    .fillMaxWidth()
-            )
-            //Spacer(modifier = Modifier.height(150.dp))
+        Box {
+            Column(
+                modifier = Modifier.padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.input_id),
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .align(alignment = Alignment.Start)
+                )
+                EditNumberField(
+                    value = clientIdViewModel.textFieldValue,
+                    onValueChange = { clientIdViewModel.changeTextFieldValue(it) },
+                    onSubmit = { clientIdViewModel.verifyClientId() },
+                    isError = clientIdViewModel.error,
+                    modifier = Modifier
+                        .padding(bottom = 32.dp)
+                        .fillMaxWidth()
+                )
+                //Spacer(modifier = Modifier.height(150.dp))
+            }
+            if (clientIdViewModel.isLoading)
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
         }
     }
 }

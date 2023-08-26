@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ProductsViewModel: ViewModel() {
+class ProductsViewModel : ViewModel() {
     // App state
     private val _uiState = MutableStateFlow(ProductsState())
     val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
@@ -26,6 +26,8 @@ class ProductsViewModel: ViewModel() {
     var error by mutableStateOf(false)
         private set
     var productos = mutableStateOf<MutableList<Producto>>(mutableListOf())
+        private set
+    var isLoading by mutableStateOf(false)
         private set
 
     /**
@@ -45,8 +47,9 @@ class ProductsViewModel: ViewModel() {
     /**
      * Get product from backend and stores in an array
      */
-    fun getProductById()  {
-        viewModelScope.launch {
+    fun getProductById() {
+        isLoading = true
+        val call = viewModelScope.launch {
             try {
                 addProductToState(DataScanApi.retrofitService.getProducto(textFieldValue))
                 verified = true
@@ -56,12 +59,13 @@ class ProductsViewModel: ViewModel() {
                 error = true
             }
         }
+        call.invokeOnCompletion { isLoading = false }
     }
 
-    fun addProductToState(producto: Producto){
+    fun addProductToState(producto: Producto) {
         productos.value.add(producto)
         AppState.productos.add(producto)
-        _uiState.value = ProductsState(products =  productos.value)
+        _uiState.value = ProductsState(products = productos.value)
     }
 }
 

@@ -23,6 +23,8 @@ class ClientIdViewModel : ViewModel() {
         private set
     var error by mutableStateOf(false)
         private set
+    var isLoading by mutableStateOf(false)
+        private set
 
     /**
      * Change TextField of client id
@@ -36,7 +38,8 @@ class ClientIdViewModel : ViewModel() {
      * Verify client id from backend
      */
     fun verifyClientId()  {
-        viewModelScope.launch {
+        isLoading = true
+        val call = viewModelScope.launch {
             try {
                 AppState.cliente = DataScanApi.retrofitService.getCliente(textFieldValue)
                 verified = true
@@ -45,6 +48,7 @@ class ClientIdViewModel : ViewModel() {
                 error = true
             }
         }
+        call.invokeOnCompletion { isLoading = false }
     }
 
 }
