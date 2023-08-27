@@ -113,4 +113,11 @@ class BillViewModel : ViewModel() {
         }
         call.invokeOnCompletion { isLoading = false }
     }
+
+    /**
+     * Init data
+     */
+    fun initData(){
+        billSaved = false
+    }
 }

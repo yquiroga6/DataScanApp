@@ -51,9 +51,12 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import gio.quiroga.datascantest1.R
+import gio.quiroga.datascantest1.model.AppState
+import gio.quiroga.datascantest1.model.ProductsState
 import gio.quiroga.datascantest1.model.ProductsViewModel
 import gio.quiroga.datascantest1.services.data_models.Producto
 import gio.quiroga.datascantest1.ui.components.rememberReceipt
@@ -64,7 +67,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill: () -> Unit) {
     val sheetState = rememberModalBottomSheetState()
-    val appState by productsViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -73,7 +75,7 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
                     Text(text = stringResource(R.string.title_activity_products_screen))
                 },
                 actions = {
-                    if (appState.products.isNotEmpty())
+                    if (productsViewModel.showActionButton)
                         ActionButton {
                             productsViewModel.initData()
                             onSeeBill()

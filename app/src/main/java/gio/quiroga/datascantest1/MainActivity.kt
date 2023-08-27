@@ -26,11 +26,11 @@ class MainActivity : ComponentActivity() {
 fun DataScanApp() {
     DataScanTheme {
         val navController = rememberNavController()
-        val currentBackStack by navController.currentBackStackEntryAsState()
+        /*val currentBackStack by navController.currentBackStackEntryAsState()
         val currentDestination = currentBackStack?.destination
         val currentScreen =
             DSTabRowScreens.find { it.route == currentDestination?.route } ?: ClientId
-        Scaffold(
+*/        Scaffold(
         ) { innerPadding ->
             DSNavHost(
                 navController = navController,

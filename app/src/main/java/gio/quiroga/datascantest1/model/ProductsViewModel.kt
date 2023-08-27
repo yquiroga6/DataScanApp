@@ -10,12 +10,11 @@ import gio.quiroga.datascantest1.services.data_models.Producto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProductsViewModel : ViewModel() {
-    // App state
-    private val _uiState = MutableStateFlow(ProductsState())
-    val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()
+    // UI State
 
     var showBottomSheet by mutableStateOf(false)
         private set
@@ -26,6 +25,8 @@ class ProductsViewModel : ViewModel() {
     var error by mutableStateOf(false)
         private set
     var isLoading by mutableStateOf(false)
+        private set
+    var showActionButton by mutableStateOf(false)
         private set
 
     /**
@@ -53,6 +54,7 @@ class ProductsViewModel : ViewModel() {
                 verified = true
                 error = false
                 showBottomSheet = false
+                showActionButton = true
             } catch (e: Exception) {
                 error = true
             }
@@ -62,7 +64,6 @@ class ProductsViewModel : ViewModel() {
 
     fun addProductToState(producto: Producto) {
         AppState.productos.add(producto)
-        _uiState.value = ProductsState(products = AppState.productos)
     }
 
     fun getProductsFromState(): List<Producto>{
@@ -74,6 +75,7 @@ class ProductsViewModel : ViewModel() {
      */
     fun initData(){
         textFieldValue = ""
+        showActionButton = false
     }
 }
 

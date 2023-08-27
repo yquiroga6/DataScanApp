@@ -77,6 +77,7 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("androidx.navigation:navigation-compose:2.7.1")
+    implementation ("androidx.lifecycle:lifecycle-runtime-compose:2.7.0-alpha01")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation(platform("androidx.compose:compose-bom:2022.10.00"))
 
