@@ -73,13 +73,10 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
                     Text(text = stringResource(R.string.title_activity_products_screen))
                 },
                 actions = {
-                    if (appState.products.size > 0)
-                        IconButton(onClick = { onSeeBill() }) {
-                            Icon(
-                                imageVector = rememberReceipt(),
-                                contentDescription = "Bills",
-                                Modifier.height(32.dp)
-                            )
+                    if (appState.products.isNotEmpty())
+                        ActionButton {
+                            productsViewModel.initData()
+                            onSeeBill()
                         }
                 }
 
@@ -125,6 +122,19 @@ fun ProductsScreen(productsViewModel: ProductsViewModel = viewModel(), onSeeBill
                 ProductCard(productos[index])
             }
         }
+    }
+}
+
+@Composable
+fun ActionButton(action: () -> Unit) {
+    IconButton(onClick = {
+        action()
+    }) {
+        Icon(
+            imageVector = rememberReceipt(),
+            contentDescription = "Bills",
+            Modifier.height(32.dp)
+        )
     }
 }
 

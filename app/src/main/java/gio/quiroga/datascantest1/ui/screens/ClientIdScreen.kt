@@ -80,7 +80,7 @@ fun ClientIDScreen(
         }
     }
     LaunchedEffect("") {
-        clientIdViewModel.clearData()
+        clientIdViewModel.initData()
     }
 }
 

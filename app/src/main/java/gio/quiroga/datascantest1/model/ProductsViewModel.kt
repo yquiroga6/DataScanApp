@@ -68,6 +68,13 @@ class ProductsViewModel : ViewModel() {
     fun getProductsFromState(): List<Producto>{
         return AppState.productos
     }
+
+    /**
+     * Clear data
+     */
+    fun initData(){
+        textFieldValue = ""
+    }
 }
 
 

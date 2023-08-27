@@ -62,7 +62,7 @@ class ClientIdViewModel : ViewModel() {
     /**
      * Clear data
      */
-    fun clearData(){
+    fun initData(){
         AppState.clearValues()
         textFieldValue = ""
     }
