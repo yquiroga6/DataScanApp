@@ -38,6 +38,9 @@ fun DSNavHost(
             BillScreen(
                 onBackToProducts = {
                     navController.navigateSingleTopTo(Products.route)
+                },
+                goToClientScreen = {
+                    navController.navigateSingleTopTo(ClientId.route)
                 }
             )
         }

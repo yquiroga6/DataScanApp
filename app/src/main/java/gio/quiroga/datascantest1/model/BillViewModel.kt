@@ -1,13 +1,27 @@
 package gio.quiroga.datascantest1.model
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import gio.quiroga.datascantest1.services.DataScanApi
+import gio.quiroga.datascantest1.services.data_models.Factura
 import gio.quiroga.datascantest1.services.data_models.Producto
+import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class BillViewModel : ViewModel() {
     // App state
     /*private val _uiState = MutableStateFlow(ProductsState())
     val uiState: StateFlow<ProductsState> = _uiState.asStateFlow()*/
 
+    var isLoading by mutableStateOf(false)
+        private set
+
+    var billSaved by mutableStateOf(false)
+        private set
 
     fun getClientName(): String? {
         return AppState.cliente.nombre
@@ -68,11 +82,35 @@ class BillViewModel : ViewModel() {
      * Verify if the trade condition since 40000 applies and return quantity of discount
      */
     fun getTradeConditionSince40000(): Int {
-        val min = AppState.productos.minBy { it.valor ?: 0 }.valor ?: 0
-        if (sumSubtotal() > 40000) return min
+        val min =
+            if (AppState.productos.isNotEmpty()) AppState.productos.minBy {
+                it.valor ?: 0
+            }.valor else 0
+        if (sumSubtotal() > 40000) return min ?: 0
         return 0
     }
 
+    /**
+     * Save bill on database
+     */
+    fun saveBill() {
+        isLoading = true
+        val call = viewModelScope.launch {
+            try {
+                val date = LocalDateTime.now()
+                    .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)//.split(".").first()
+                val response = DataScanApi.retrofitService.postFactura(
+                    Factura(
+                        fecha = date,
+                        cliente = AppState.cliente.cedula
+                    )
+                )
+                print(response)
+                billSaved = true
+            } catch (e: Exception) {
+                print(e)
+            }
+        }
+        call.invokeOnCompletion { isLoading = false }
+    }
 }
-
-enum class TradeCondition { ONE, THREE, UP }

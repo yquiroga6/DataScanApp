@@ -3,10 +3,14 @@ package gio.quiroga.datascantest1.services
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import gio.quiroga.datascantest1.services.data_models.Cliente
+import gio.quiroga.datascantest1.services.data_models.Factura
 import gio.quiroga.datascantest1.services.data_models.Producto
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 private const val BASE_URL = "http://10.0.2.2:4000"
@@ -45,6 +49,15 @@ interface DataScanApiService {
      */
     @GET("/producto/{id}")
     suspend fun getProducto(@Path("id") id: String): Producto
+
+    /**
+     * Saves a [Factura] and this method can be called from a Coroutine.
+     * The @POST annotation indicates that the "factura" endpoint will be requested with the POST
+     * HTTP method
+     */
+    @POST("/factura")
+   // @JvmSuppressWildcards
+    suspend fun postFactura(@Body body: Factura): Response<Map<String, Any>>
 }
 
 /**

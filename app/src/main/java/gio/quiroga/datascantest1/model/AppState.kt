@@ -6,4 +6,9 @@ import gio.quiroga.datascantest1.services.data_models.Producto
 object AppState{
     var cliente: Cliente = Cliente(cedula = "")
     var productos: MutableList<Producto> = mutableListOf()
+
+    fun clearValues(){
+        this.productos.clear()
+        this.cliente = Cliente("")
+    }
 }

@@ -11,6 +11,8 @@
  */
 package gio.quiroga.datascantest1.services.data_models
 
+import java.time.LocalDateTime
+
 
 /**
  * 
@@ -19,9 +21,8 @@ package gio.quiroga.datascantest1.services.data_models
  * @param fecha 
  */
 data class Factura (
-
     val numTRX: Int? = null,
     val cliente: String? = null,
-    val fecha: java.time.LocalDateTime? = null
+    val fecha: String? = null
 ) {
 }

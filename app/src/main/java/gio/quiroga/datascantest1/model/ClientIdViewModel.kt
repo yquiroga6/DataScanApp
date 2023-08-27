@@ -3,7 +3,6 @@ package gio.quiroga.datascantest1.model
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import gio.quiroga.datascantest1.services.DataScanApi
@@ -19,7 +18,7 @@ class ClientIdViewModel : ViewModel() {
 
     var textFieldValue by mutableStateOf("")
         private set
-    var verified by mutableStateOf(false)
+    var isVerified by mutableStateOf(false)
         private set
     var error by mutableStateOf(false)
         private set
@@ -27,10 +26,19 @@ class ClientIdViewModel : ViewModel() {
         private set
 
     /**
-     * Change TextField of client id
+     * Sets TextField of client id
      */
     fun changeTextFieldValue(clientId: String) {
         textFieldValue = clientId
+    }
+    /**
+     * Sets verified of client id
+     */
+    /**
+     * Change TextField of client id
+     */
+    fun changeVerified(value: Boolean) {
+        isVerified = value
     }
 
 
@@ -42,13 +50,21 @@ class ClientIdViewModel : ViewModel() {
         val call = viewModelScope.launch {
             try {
                 AppState.cliente = DataScanApi.retrofitService.getCliente(textFieldValue)
-                verified = true
+                isVerified = true
                 error = false
             } catch (e: Exception) {
                 error = true
             }
         }
         call.invokeOnCompletion { isLoading = false }
+    }
+
+    /**
+     * Clear data
+     */
+    fun clearData(){
+        AppState.clearValues()
+        textFieldValue = ""
     }
 
 }
