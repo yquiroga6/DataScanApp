@@ -11,7 +11,7 @@
     <string name="product_no_found">Producto no encontrado</string>
     <string name="greeting">Hola %1$s,</string>
     <string name="receipt">Resumen de la compra</string>
-    <string name="purchase">Compra:</string>
+    <string name="purchase">Resumen:</string>
     <string name="to_purchase">Comprar</string>
     <string name="total">TOTAL</string>
     <string name="subtotal">Subtotal</string>

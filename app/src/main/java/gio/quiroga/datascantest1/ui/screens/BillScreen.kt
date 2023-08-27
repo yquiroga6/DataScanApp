@@ -2,8 +2,6 @@ package gio.quiroga.datascantest1.ui.screens
 
 import android.icu.text.NumberFormat
 import android.icu.util.Currency
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,27 +10,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -44,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import gio.quiroga.datascantest1.R
 import gio.quiroga.datascantest1.model.BillViewModel
+import gio.quiroga.datascantest1.services.data_models.Producto
 import gio.quiroga.datascantest1.ui.components.DashedDivider
-import gio.quiroga.datascantest1.ui.components.rememberReceipt
 import gio.quiroga.datascantest1.ui.theme.DataScanTheme
 import java.time.LocalDate
 
@@ -73,7 +65,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                 text = { Text(text = stringResource(R.string.to_purchase)) },
                 icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "") },
                 onClick = {
-                    
+
                 }
             )
         },
@@ -100,7 +92,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                     .align(Alignment.CenterHorizontally)
                     .padding(horizontal = 32.dp)
                     .fillMaxWidth(),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium.copy(color = lightColorScheme().primary),
             )
             Text(
                 text = pluralStringResource(
@@ -122,8 +114,14 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                 style = MaterialTheme.typography.titleLarge
             )
             LazyColumn(modifier = Modifier.padding(horizontal = 32.dp)) {
-                items(4) {
-                    ItemRow(format)
+                val groups= billViewModel.getGroupsById().values
+                items(groups.size) { i ->
+                    ItemRow(
+                        format = format,
+                        quantity = groups.elementAt(i).size,
+                        name = groups.elementAt(i).first().nombre ?: "",
+                        sum = groups.elementAt(i).sumOf { it.valor ?: 0 }
+                    )
                     DashedDivider(
                         color = Color.LightGray,
                         thickness = 1.dp,
@@ -133,7 +131,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                 }
             }
             Divider(
-                color = lightColorScheme().tertiary,
+                color = lightColorScheme().primary,
                 thickness = 3.dp,
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
@@ -152,7 +150,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                 )
                 Text(
-                    text = format.format(45000),
+                    text = format.format(billViewModel.sumSubtotal()),
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -172,7 +170,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                 )
                 Text(
-                    text = format.format(45000),
+                    text = "(${format.format(45000)})",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -212,7 +210,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
 }
 
 @Composable
-fun ItemRow(format: NumberFormat) {
+fun ItemRow(format: NumberFormat, quantity: Int, name: String, sum: Int) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -222,16 +220,16 @@ fun ItemRow(format: NumberFormat) {
             .height(48.dp),
     ) {
         Text(
-            text = "2",
+            text = quantity.toString(),
             style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray),
             modifier = Modifier.padding(end = 16.dp)
         )
         Text(
-            text = "Product1",
+            text = name,
             style = MaterialTheme.typography.titleMedium.copy(color = Color.Gray),
             modifier = Modifier.weight(1F)
         )
-        Text(text = format.format(45000), style = MaterialTheme.typography.titleMedium)
+        Text(text = format.format(sum), style = MaterialTheme.typography.titleMedium)
     }
 }
 

@@ -1,9 +1,7 @@
 package gio.quiroga.datascantest1.model
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import gio.quiroga.datascantest1.services.data_models.Producto
 
 class BillViewModel : ViewModel() {
     // App state
@@ -18,5 +16,21 @@ class BillViewModel : ViewModel() {
     fun getProductsSizefromState(): Int {
         return AppState.productos.size
     }
+
+    /**
+     * Group the products by Id
+     */
+    fun getGroupsById(): Map<String, List<Producto>> {
+        return AppState.productos.groupBy { it.id }
+    }
+
+    /**
+     * Sum values of the  elements in the group
+     */
+    fun sumSubtotal(): Int {
+        return AppState.productos.sumOf { it.valor ?: 0 }
+    }
+
+
 
 }
