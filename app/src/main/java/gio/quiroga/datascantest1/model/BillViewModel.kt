@@ -31,6 +31,48 @@ class BillViewModel : ViewModel() {
         return AppState.productos.sumOf { it.valor ?: 0 }
     }
 
+    /**
+     * Calculates discounts
+     */
+    fun calculateDiscounts(): Float {
+        val discountsPercentage =
+            getTradeCondition1Percentage() + getTradeCondition3Percentage()
+        val discounts = getTradeConditionSince40000()
+        return discounts + (AppState.productos.sumOf { it.valor ?: 0 } * discountsPercentage)
+    }
 
+    /**
+     * Calculates Total value of purchase
+     */
+    fun calculateTotal(): Float {
+        return AppState.productos.sumOf { it.valor ?: 0 } - calculateDiscounts()
+    }
+
+    /**
+     * Verify if the trade condition 1 applies and return the percentage of discount
+     */
+    fun getTradeCondition1Percentage(): Float {
+        if (getGroupsById().values.any { it.size > 1 }) return 0.2F
+        return 0.0F
+    }
+
+    /**
+     * Verify if the trade condition 3 applies and return the percentage of discount
+     */
+    fun getTradeCondition3Percentage(): Float {
+        if (getGroupsById().size > 3) return 0.15F
+        return 0.0F
+    }
+
+    /**
+     * Verify if the trade condition since 40000 applies and return quantity of discount
+     */
+    fun getTradeConditionSince40000(): Int {
+        val min = AppState.productos.minBy { it.valor ?: 0 }.valor ?: 0
+        if (sumSubtotal() > 40000) return min
+        return 0
+    }
 
 }
+
+enum class TradeCondition { ONE, THREE, UP }

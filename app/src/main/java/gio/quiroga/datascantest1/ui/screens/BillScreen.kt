@@ -114,7 +114,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                 style = MaterialTheme.typography.titleLarge
             )
             LazyColumn(modifier = Modifier.padding(horizontal = 32.dp)) {
-                val groups= billViewModel.getGroupsById().values
+                val groups = billViewModel.getGroupsById().values
                 items(groups.size) { i ->
                     ItemRow(
                         format = format,
@@ -170,7 +170,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                 )
                 Text(
-                    text = "(${format.format(45000)})",
+                    text = "(${format.format(billViewModel.calculateDiscounts())})",
                     style = MaterialTheme.typography.titleSmall.copy(color = Color.Gray),
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
@@ -190,7 +190,7 @@ fun BillScreen(billViewModel: BillViewModel = viewModel(), onBackToProducts: () 
                     style = MaterialTheme.typography.titleLarge,
                 )
                 Text(
-                    text = format.format(45000),
+                    text = format.format(billViewModel.calculateTotal()),
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 )
